@@ -4,6 +4,7 @@ const express = require('express');
 const teacherRoute = require('./Route/teacherRoute');
 const childRoute = require('./Route/childRoute');
 const classRoute = require('./Route/classRoute');
+const adminRoute = require('./Route/adminRoute');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -32,6 +33,7 @@ server.use(express.json());
 server.use(teacherRoute);
 server.use(childRoute);
 server.use(classRoute);
+server.use(adminRoute);
 //=========not found middleware=========
 server.use((request, response, next) => {
     console.log("not found middleware");
