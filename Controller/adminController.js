@@ -38,9 +38,9 @@ exports.getAllTeachers = (req, res, next) => {
 exports.addTeacher = (req, res, next) => {
     try {
         const role = 'teacher';
-        const { _id, name, email, password } = req.body;
+        const {  name, email, password } = req.body;
         const user = new userModel({
-            _id,
+            
             name,
             email,
             role,
@@ -116,9 +116,8 @@ exports.getAllChildren = (req, res, next) => {
 exports.addChild = (req, res, next) => {
     try {
         const role = 'child';
-        const { _id, name, email, password } = req.body;
+        const {  name, email, password } = req.body;
         const user = new userModel({
-            _id,
             name,
             email,
             role,

@@ -3,10 +3,10 @@ const controller = require("./../Controller/adminController");
 const router = express.Router();
 
 router.route("/admin")
-    .get(controller.getAdmin)
+    // .get(controller.getAdmin)
     .post(controller.addAdmin)
-    .put(controller.updateAdmin)
-    .delete(controller.deleteAdmin)
+    // .put(controller.updateAdmin)
+    // .delete(controller.deleteAdmin)
 
 router.get("/admin/teachers", controller.getAllTeachers);
 router.post("/admin/teachers", controller.addTeacher);

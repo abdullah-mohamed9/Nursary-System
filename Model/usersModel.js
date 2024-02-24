@@ -1,11 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const autoIncrement = require('mongoose-sequence')(mongoose);
 
 const usersSchema = mongoose.Schema({
-    _id: {
-        type: Number,
-        required: true,
-    },
     name: {
         type: String,
         required: true
@@ -34,6 +31,6 @@ const usersSchema = mongoose.Schema({
         type: String,
         ref : 'class',
     },
-})
-
+},{_id:false})
+usersSchema.plugin(autoIncrement);
 module.exports = mongoose.model('user', usersSchema);
