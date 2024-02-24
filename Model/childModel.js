@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
+ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const teacherSchema = mongoose.Schema({
+const childSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {
         type: String,
@@ -14,17 +14,18 @@ const teacherSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
-    role : "teacher" ,
+    role : "child",
     image : { 
         type: String,
         required: true
     },
     class: {
         type: String,
-        required: true
+        required: true,
+        
     },
 })
 
-module.exports = mongoose.model('teacher', teacherSchema);
+module.exports = mongoose.model('child', childSchema);
