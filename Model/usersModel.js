@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
-// const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 const usersSchema = mongoose.Schema({
+    _id: {
+        type: Number,
+        required: true,
+    },
     name: {
         type: String,
         required: true
@@ -13,7 +17,10 @@ const usersSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        set: (value) => {
+            return bcrypt.hashSync(value, 10);
+        }
     },
     role :  {
         type: String,
