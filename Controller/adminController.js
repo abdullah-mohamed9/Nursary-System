@@ -20,15 +20,7 @@ exports.addAdmin = (req, res, next) => {
         res.status(500).json({ message: error + '' });
     }
 }
-exports.getAdmin = (req, res, next) => {
 
-}
-exports.deleteAdmin = (req, res, next) => {
-
-}
-exports.updateAdmin = (req, res, next) => {
-
-}
 
 //================teacher================
 exports.getAllTeachers = (req, res, next) => {
@@ -107,6 +99,7 @@ exports.getTeacherById = (req, res, next) => {
 
 
 
+
 //================child================
 exports.getAllChildren = (req, res, next) => {
     try {
@@ -123,10 +116,12 @@ exports.getAllChildren = (req, res, next) => {
 exports.addChild = (req, res, next) => {
     try {
         const role = 'child';
-        const { name, email, password } = req.body;
+        const { _id, name, email, password } = req.body;
         const user = new userModel({
+            _id,
             name,
             email,
+            role,
             password
         });
         user.save().then((data) => {
@@ -140,11 +135,42 @@ exports.addChild = (req, res, next) => {
     }
 }
 exports.deleteChild = (req, res, next) => {
-
+    try {
+        const id = req.params.id;
+        userModel.findByIdAndDelete(id).then((data) => {
+            res.status(200).json({ data });
+        }).catch((error) => {
+            res.status(500).json({ message: error + '' });
+        });
+    }
+    catch (error) {
+        res.status(500).json({ message: error + '' });
+    }
 }
 exports.updateChild = (req, res, next) => {
-
+    try {
+        const id = req.params.id;
+        const { name, email, password } = req.body
+        userModel.findByIdAndUpdate(id, { name, email, password }).then((data) => {
+            res.status(200).json({ data });
+        }).catch((error) => {
+            res.status(500).json({ message: error + '' });
+        });
+    }
+    catch (error) {
+        res.status(500).json({ message: error + '' });
+    }
 }
 exports.getChildById = (req, res, next) => {
-
+    try {
+        const id = req.params.id;
+        userModel.findById(id).then((data) => {
+            res.status(200).json({ data });
+        }).catch((error) => {
+            res.status(500).json({ message: error + '' });
+        });
+    }
+    catch (error) {
+        res.status(500).json({ message: error + '' });
+    }
 }
