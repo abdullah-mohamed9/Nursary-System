@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const autoIncrement = require('mongoose-sequence')(mongoose);
+var formidable = require('formidable');
+
 
 const teacherSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     fullname: {
         type: String,
         required: true
@@ -22,12 +23,13 @@ const teacherSchema = mongoose.Schema({
     },
     image: {
         type: String,
+        // required: true,
+
     },
     role: {
         type: String,
         default: 'teacher',
         immutable: true
     }
-}, { _id: false })
-teacherSchema.plugin(autoIncrement);
+});
 module.exports = mongoose.model('teacher', teacherSchema);

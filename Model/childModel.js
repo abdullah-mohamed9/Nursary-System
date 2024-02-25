@@ -39,5 +39,5 @@ const childSchema = mongoose.Schema({
     address: addressSchema
 }, { _id: false })
 
-childSchema.plugin(autoIncrement);
+childSchema.plugin(autoIncrement, { inc_field: '_id' });
 module.exports = mongoose.model('child', childSchema);

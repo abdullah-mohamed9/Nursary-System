@@ -4,7 +4,7 @@ const express = require('express');
 const teacherRoute = require('./Route/teacherRoute');
 const childRoute = require('./Route/childRoute');
 const classRoute = require('./Route/classRoute');
-const adminRoute = require('./Route/adminRoute');
+// const adminRoute = require('./Route/adminRoute');
 const authRoute = require('./Route/authRoute');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -32,11 +32,13 @@ server.use(cors());
 
 //--------------- settings
 server.use(express.json());
+server.use(express.urlencoded({ extended: false }));
+
 //=======routes=======
 server.use(teacherRoute);
 server.use(childRoute);
 server.use(classRoute);
-server.use(adminRoute);
+// server.use(adminRoute);
 server.use(authRoute);
 //=========not found middleware=========
 server.use((request, response, next) => {

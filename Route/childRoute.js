@@ -1,6 +1,6 @@
 const express = require('express');
-const controller = require("./../Controller/childController");
 const router = express.Router();
+const controller = require("./../Controller/childController");
 
 router.route("/child")
     .get(controller.getAllChildren)

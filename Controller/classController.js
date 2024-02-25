@@ -1,5 +1,6 @@
 const teacherModel = require('../Model/teacherModel');
-const ClassModel = require('../models/classModel');
+const ClassModel = require('../Model/classModel');
+const classModel = require('../Model/classModel');
 
 exports.getAllClasses = (req, res, next) => {
     try {
@@ -16,7 +17,7 @@ exports.getAllClasses = (req, res, next) => {
 exports.getClassById = (req, res, next) => {
     try {
         const id = req.params.id;
-        ClassModel.findById(id).then((data) => {
+        classModel.findOne({ class_id: id }).then((data) => {
             if (data) {
                 res.status(200).json({ data });
             } else {
@@ -30,9 +31,9 @@ exports.getClassById = (req, res, next) => {
         res.status(500).json({ message: error + '' });
     }
 }
-exports.createClass = (req, res, next) => {
+exports.createClass = async (req, res, next) => {
     try {
-        ClassModel.creat(req.body).then((data) => {
+        await ClassModel.create(req.body).then((data) => {
             res.status(201).json({ data });
         }).catch((error) => {
             res.status(500).json({ message: error + '' });
@@ -42,16 +43,13 @@ exports.createClass = (req, res, next) => {
         res.status(500).json({ message: error + '' });
     }
 }
-exports.updateClass = (req, res, next) => {
+exports.updateClass = async (req, res, next) => {
     try {
-        const id = req.params.id;
-        const { name, email, password } = req.body
-        ClassModel.findByIdAndUpdate
-            (id, { name, email, password }).then((data) => {
-                res.status(200).json({ data });
-            }).catch((error) => {
-                res.status(500).json({ message: error + '' });
-            });
+        await ClassModel.findOneAndUpdate({ class_id: req.body.id }, req.body).then((data) => {
+            res.status(200).json({ data });
+        }).catch((error) => {
+            res.status(500).json({ message: error + '' });
+        });
     }
     catch (error) {
         res.status(500).json({ message: error + '' });
@@ -60,9 +58,13 @@ exports.updateClass = (req, res, next) => {
 exports.deleteClass = (req, res, next) => {
 
     try {
-        const id = req.params.id;
-        ClassModel.findByIdAndDelete(id).then((data) => {
-            res.status(200).json({ data });
+        const id = req.body.id;
+        classModel.findOneAndDelete({ class_id: id }).then((data) => {
+            if (data) {
+                res.status(200).json({ data });
+            } else {
+                res.status(404).json({ message: "User not found" });
+            }
         }).catch((error) => {
             res.status(500).json({ message: error + '' });
         });
@@ -89,34 +91,54 @@ exports.getChild = (req, res, next) => {
         res.status(500).json({ message: error + '' });
     }
 }
-exports.getSupervisor = (req, res, next) => {
+
+exports.getSupervisor = async (req, res, next) => {
     try {
         const id = req.params.id;
-        ClassModel.findById(id).then((data) => {
-            if (data) {
-                const supervisor = data.supervisor;
-                try{
-                    teacherModel.findById(supervisor).then((data) => {
-                        if (data) {
-                            res.status(200).json({ data });
-                        } else {
-                            res.status(404).json({ message: "User not found" });
-                        }
-                    }).catch((error) => {
-                        res.status(500).json({ message: error + '' });
-                    });
-                }
-                catch (error) {
-                    res.status(500).json({ message: error + '' });
-                }
+        const data = await ClassModel.findOne({ _id: id });
+        if (data) {
+            const supervisor = data.supervisor;
+            const teacher = await teacherModel.findOne({ teacher_id: supervisor });
+            if (teacher) {
+                res.status(200).json({ teacher });
             } else {
                 res.status(404).json({ message: "User not found" });
             }
-        }).catch((error) => {
-            res.status(500).json({ message: error + '' });
-        });
+        } else {
+            res.status(404).json({ message: "User not found" });
+        }
     }
+    // try {
+    //     const id = req.params.id;
+    //     teacherModel.findOne(id).then((data) => {
+    //         console.log(data+"data");
+    //         if (data) {
+    //             console.log(data+"data");
+    //             const supervisor = data.supervisor;
+    //             console.log(supervisor+"supervisor");
+    //             try {
+    //                 teacherModel.findById(supervisor).then((data) => {
+    //                     if (data) {
+    //                         res.status(200).json({ data });
+    //                     } else {
+    //                         res.status(404).json({ message: "User not found" });
+    //                     }
+    //                 }).catch((error) => {
+    //                     res.status(500).json({ message: error + '' });
+    //                 });
+    //             }
+    //             catch (error) {
+    //                 res.status(500).json({ message: error + '' });
+    //             }
+    //         } else {
+    //             res.status(404).json({ message: "User not found" });
+    //         }
+    //     }).catch((error) => {
+    //         res.status(500).json({ message: error + '' });
+    //     });
+    // }
     catch (error) {
         res.status(500).json({ message: error + '' });
     }
 }
+

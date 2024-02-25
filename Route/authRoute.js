@@ -9,6 +9,6 @@ router.route("/login")
     .post(controller.login)
 
 router.route("/changePassword")
-    .post(controller.changePassword)
+    .put(controller.changePassword)
     
 module.exports = router;

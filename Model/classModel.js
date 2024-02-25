@@ -16,7 +16,6 @@ const classSchema = mongoose.Schema({
         type: Number,
         ref: 'child'
     }]
-}, { _id: false })
-
-classSchema.plugin(autoIncrement);
+})  
+classSchema.plugin(autoIncrement, { inc_field: 'class_id' });
 module.exports = mongoose.model('class', classSchema);
