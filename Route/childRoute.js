@@ -4,9 +4,9 @@ const router = express.Router();
 
 router.route("/child")
     .get(controller.getAllChildren)
-    .post(controller.createChildren)
-    .put(controller.updateChildren)
-    .delete(controller.deleteChildren)
+    .post(controller.createChild)
+    .put(controller.updateChild)
+    .delete(controller.deleteChild)
 
 router.get("/child/:id", controller.getChildById)
 

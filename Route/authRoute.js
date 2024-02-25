@@ -8,4 +8,7 @@ router.route("/signup")
 router.route("/login")
     .post(controller.login)
 
+router.route("/changePassword")
+    .post(controller.changePassword)
+    
 module.exports = router;

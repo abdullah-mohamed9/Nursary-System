@@ -1,7 +1,6 @@
 const userModel = require("./../Model/usersModel");
 
 exports.addAdmin = (req, res, next) => {
-    //res.status(200).json({ data: {} });
     try {
         const { name, email, role, password } = req.body;
         const user = new userModel({

@@ -1,20 +1,22 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
+const autoIncrement = require('mongoose-sequence')(mongoose);
 
 const classSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     name: {
         type: String,
         required: true
     },
-    // teacher: {
-    //     type: String,
-    //     required: true
-    // },
-    // children: {
-    //     type: String,
-    //     required: true
-    // },    
-})
+    supervisor: {
+        type: Number,
+        required: true,
+        ref: 'teacher'
+    },
+    children: [{
+        type: Number,
+        ref: 'child'
+    }]
+}, { _id: false })
 
+classSchema.plugin(autoIncrement);
 module.exports = mongoose.model('class', classSchema);

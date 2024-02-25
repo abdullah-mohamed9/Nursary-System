@@ -9,12 +9,14 @@ const authRoute = require('./Route/authRoute');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
 const server = express();
+dotenv.config();
 
-mongoose.connect('mongodb://localhost:27017/Nursary').then(() => {
+mongoose.connect(process.env.DB_url).then(() => {
     console.log('Connected to the database');
-    server.listen(8080, () => {
+    server.listen(process.env.port_number, () => {
         console.log('Server is running on port 8080');
     });
 }).catch((error) => {

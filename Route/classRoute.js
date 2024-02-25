@@ -4,9 +4,9 @@ const router = express.Router();
 
 router.route("/class")
     .get(controller.getAllClasses)
-    .post(controller.createClasses)
-    .put(controller.updateClasses)
-    .delete(controller.deleteClasses)
+    .post(controller.createClass)
+    .put(controller.updateClass)
+    .delete(controller.deleteClass)
 
 router.get("/class/:id",controller.getClassById)
 
