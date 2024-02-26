@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const controller = require("./../Controller/childController");
+const validation = require("../Middlewares/validation/childValidator");
 
 router.route("/child")
     .get(controller.getAllChildren)
-    .post(controller.createChild)
-    .put(controller.updateChild)
-    .delete(controller.deleteChild)
+    .post(validation.createChildValid, validation.validMSG, controller.createChild)
+    .put(validation.updateChildValid, validation.validMSG, controller.updateChild)
+    .delete(validation.deleteChildValid, validation.validMSG, controller.deleteChild)
 
-router.get("/child/:id", controller.getChildById)
+router.get("/child/:id", validation.getChildByIdValid, validation.validMSG, controller.getChildById)
 
 module.exports = router;

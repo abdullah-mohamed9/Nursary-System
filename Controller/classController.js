@@ -21,7 +21,7 @@ exports.getClassById = (req, res, next) => {
             if (data) {
                 res.status(200).json({ data });
             } else {
-                res.status(404).json({ message: "User not found" });
+                res.status(404).json({ message: "Class not found" });
             }
         }).catch((error) => {
             res.status(500).json({ message: error + '' });
@@ -46,7 +46,12 @@ exports.createClass = async (req, res, next) => {
 exports.updateClass = async (req, res, next) => {
     try {
         await ClassModel.findOneAndUpdate({ class_id: req.body.id }, req.body).then((data) => {
-            res.status(200).json({ data });
+            if(data){
+                res.status(200).json({ data });
+            }
+            else{
+                res.status(404).json({ message: "Class not found" });
+            }
         }).catch((error) => {
             res.status(500).json({ message: error + '' });
         });
@@ -63,7 +68,7 @@ exports.deleteClass = (req, res, next) => {
             if (data) {
                 res.status(200).json({ data });
             } else {
-                res.status(404).json({ message: "User not found" });
+                res.status(404).json({ message: "Class not found" });
             }
         }).catch((error) => {
             res.status(500).json({ message: error + '' });
@@ -81,7 +86,7 @@ exports.getChild = (req, res, next) => {
             if (data) {
                 res.status(200).json({ data });
             } else {
-                res.status(404).json({ message: "User not found" });
+                res.status(404).json({ message: "Class not found" });
             }
         }).catch((error) => {
             res.status(500).json({ message: error + '' });
@@ -91,7 +96,6 @@ exports.getChild = (req, res, next) => {
         res.status(500).json({ message: error + '' });
     }
 }
-
 exports.getSupervisor = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -102,7 +106,7 @@ exports.getSupervisor = async (req, res, next) => {
             if (teacher) {
                 res.status(200).json({ teacher });
             } else {
-                res.status(404).json({ message: "User not found" });
+                res.status(404).json({ message: "Class not found" });
             }
         } else {
             res.status(404).json({ message: "User not found" });

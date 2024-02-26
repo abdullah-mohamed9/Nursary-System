@@ -10,7 +10,6 @@ const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-
 const server = express();
 dotenv.config();
 

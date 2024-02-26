@@ -20,7 +20,12 @@ exports.getTeacherById = (req, res, next) => {
     try {
         Teacher.findOne({ _id: req.params.id })
             .then((data) => {
-                res.status(200).json({ data, message: "get one teacher" });
+                if (data) {
+                    res.status(200).json({ data, message: "get one teacher" });
+                }
+                else {
+                    res.status(404).json({ message: "User not found" });
+                }
             })
             .catch((err) => {
                 res.status(500).json({ message: err + '' });
@@ -32,19 +37,26 @@ exports.getTeacherById = (req, res, next) => {
 };
 exports.createTeacher = async (req, res, next) => {
     try {
-        const teacher = new Teacher({
-            fullname: req.body.fullname,
-            email: req.body.email,
-            password: req.body.password,
-            image: req.file.path
-        });
-        await teacher.save()
+        await Teacher.findOne({ email: req.body.email })
             .then((data) => {
-                res.status(200).json({ data, message: "create teacher" });
+                if (!data) {
+                    const teacher = new Teacher({
+                        fullname: req.body.fullname,
+                        email: req.body.email,
+                        password: req.body.password,
+                        image: req.file.path
+                    });
+                    teacher.save()
+                        .then((data) => {
+                            res.status(200).json({ data, message: "create teacher" });
+                        })
+                        .catch((err) => {
+                            res.status(500).json({ message: err + '' });
+                        });
+                } else {
+                    res.status(400).json({ message: "User already exists" });
+                }
             })
-            .catch((err) => {
-                res.status(500).json({ message: err + '' });
-            });
     }
     catch (err) {
         res.status(500).json({ message: err + '' });
@@ -55,7 +67,11 @@ exports.updateTeacher = (req, res, next) => {
     try {
         Teacher.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true, })
             .then((data) => {
-                res.status(200).json({ data, message: "update teacher" });
+                if (data) {
+                    res.status(200).json({ data });
+                } else {
+                    res.status(404).json({ message: "User not found" });
+                }
             })
             .catch((err) => {
                 res.status(500).json({ message: err + '' });
@@ -71,7 +87,11 @@ exports.deleteTeacher = async (req, res, next) => {
     try {
         await Teacher.findOneAndDelete({ _id: req.body._id })
             .then((data) => {
-                res.status(200).json({ data, message: "delete teacher" });
+                if (data) {
+                    res.status(200).json({ data, message: "delete teacher" });
+                } else {
+                    res.status(404).json({ message: "User not found" });
+                }
             })
             .catch((err) => {
                 res.status(500).json({ message: err + '' });

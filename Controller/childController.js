@@ -52,7 +52,11 @@ exports.createChild = async (req, res, next) => {
 exports.updateChild = async (req, res, next) => {
     try {
         await childModel.findByIdAndUpdate({ _id: req.body.id }, req.body).then((data) => {
-            res.status(200).json({ data });
+            if(data){
+                res.status(200).json({ data });
+            } else {
+                res.status(404).json({ message: "User not found" });
+            }
         }).catch((error) => {
             res.status(500).json({ message: error + "" });
         });
@@ -67,7 +71,12 @@ exports.deleteChild = (req, res, next) => {
         childModel
             .findByIdAndDelete({ _id: req.body.id })
             .then((data) => {
-                res.status(200).json({ data });
+                if(data){
+                    res.status(200).json({ data });
+                }
+                else{
+                    res.status(404).json({ message: "User not found" });
+                }
             })
             .catch((error) => {
                 res.status(500).json({ message: error + "" });
