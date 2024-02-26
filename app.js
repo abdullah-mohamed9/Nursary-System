@@ -10,6 +10,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const swagger = require('./swagger');
 const server = express();
 dotenv.config();
 
@@ -31,14 +32,17 @@ server.use(cors());
 
 //--------------- settings
 server.use(express.json());
+swagger(server, process.env.port_number);
 server.use(express.urlencoded({ extended: false }));
 
 //=======routes=======
-server.use(teacherRoute);
-server.use(childRoute);
-server.use(classRoute);
 // server.use(adminRoute);
 server.use(authRoute);
+
+server.use(childRoute);
+server.use(teacherRoute);
+server.use(classRoute);
+
 //=========not found middleware=========
 server.use((request, response, next) => {
     console.log("not found middleware");
